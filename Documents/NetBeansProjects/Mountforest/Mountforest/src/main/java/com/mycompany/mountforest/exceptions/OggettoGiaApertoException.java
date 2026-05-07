@@ -10,7 +10,7 @@ package com.mycompany.mountforest.exceptions;
  */
 
 // File: OggettoGiaApertoException.java
-public class OggettoGiaApertoException extends Exception {
+public class OggettoGiaApertoException extends GameException {
     public OggettoGiaApertoException(String nomeOggetto) {
         super(nomeOggetto + " è già spalancato.");
     }

@@ -61,6 +61,7 @@ public class ADVObject {
 
     /**
      * Se l'oggetto è aperto, mostra cosa c'è dentro nella descrizione.
+     * @return 
      */
     public String getDescrizioneCompleta() {
         if (apribile && aperto && !contenuto.isEmpty()) {

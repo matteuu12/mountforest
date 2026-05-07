@@ -26,9 +26,10 @@ public class Inventario {
 
     /**
      * Aggiunge un oggetto all'inventario.
+     * @param oggetto
      * @throws InventarioPienoException se superi il limite di 8 oggetti.
      */
-    public void aggiungi(ADVObject oggetto) throws InventarioPienoException {
+    public void aggiungi(ADVObject oggetto) throws InventarioPienoException{
         if (oggetti.size() >= MAX_SPAZIO) {
             throw new InventarioPienoException("L'inventario è pieno! Non puoi portare altro.");
         }
@@ -37,6 +38,7 @@ public class Inventario {
 
     /**
      * Rimuove un oggetto (es. quando lo lasci a terra o lo usi).
+     * @param oggetto
      * @throws OggettoNonPresenteException se provi a rimuovere qualcosa che non hai.
      */
     public void rimuovi(ADVObject oggetto) throws OggettoNonPresenteException {
@@ -50,6 +52,8 @@ public class Inventario {
 
     /**
      * Controlla se un oggetto è presente cercando sia per nome che per alias.
+     * @param nomeInput
+     * @return 
      */
     public boolean contiene(String nomeInput) {
         return oggetti.stream()
@@ -59,6 +63,8 @@ public class Inventario {
     /**
      * Recupera l'oggetto fisico dall'inventario tramite stringa.
      * Utile per i comandi tipo "usa [nome]".
+     * @param nomeInput
+     * @return 
      */
     public Optional<ADVObject> getOggetto(String nomeInput) {
         return oggetti.stream()
@@ -77,6 +83,7 @@ public class Inventario {
 
     /**
      * Restituisce una stringa leggibile di cosa possiede il giocatore.
+     * @return 
      */
     public String visualizza() {
         if (oggetti.isEmpty()) {

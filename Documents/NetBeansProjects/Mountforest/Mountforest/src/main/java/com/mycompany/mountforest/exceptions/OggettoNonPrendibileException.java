@@ -9,7 +9,7 @@ package com.mycompany.mountforest.exceptions;
  * @author sofy8
  */
 // File: OggettoNonPrendibileException.java
-public class OggettoNonPrendibileException extends Exception {
+public class OggettoNonPrendibileException extends GameException {
     public OggettoNonPrendibileException(String nomeOggetto) {
         super("Non puoi prendere " + nomeOggetto + ". Sembra inamovibile.");
     }

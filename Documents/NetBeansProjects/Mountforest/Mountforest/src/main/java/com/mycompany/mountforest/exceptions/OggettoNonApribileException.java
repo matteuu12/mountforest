@@ -9,7 +9,7 @@ package com.mycompany.mountforest.exceptions;
  * @author sofy8
  */
 // File: OggettoNonApribileException.java
-public class OggettoNonApribileException extends Exception {
+public class OggettoNonApribileException extends GameException {
     public OggettoNonApribileException(String nomeOggetto) {
         super("Hai provato ad aprire " + nomeOggetto + ", ma non è qualcosa che si può aprire.");
     }

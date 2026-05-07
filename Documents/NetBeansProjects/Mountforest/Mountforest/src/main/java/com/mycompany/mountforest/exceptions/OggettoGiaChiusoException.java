@@ -9,7 +9,7 @@ package com.mycompany.mountforest.exceptions;
  * @author sofy8
  */
 // File: OggettoGiaChiusoException.java
-public class OggettoGiaChiusoException extends Exception {
+public class OggettoGiaChiusoException extends GameException {
     public OggettoGiaChiusoException(String nomeOggetto) {
         super(nomeOggetto + " è già chiuso.");
     }

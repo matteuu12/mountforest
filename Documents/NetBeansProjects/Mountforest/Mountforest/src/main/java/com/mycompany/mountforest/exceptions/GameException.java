@@ -8,12 +8,11 @@ package com.mycompany.mountforest.exceptions;
  *
  * @author sofy8
  */
-public class InventarioPienoException extends GameException {
-    public InventarioPienoException() {
-        super("L'inventario è pieno! Non puoi portare altro.");
-    }
-    
-    public InventarioPienoException(String messaggio) {
+public class GameException extends Exception {
+    public GameException(String messaggio) {
         super(messaggio);
+    }
+    public GameException(String messaggio, Throwable cause) {
+        super(messaggio, cause);
     }
 }
