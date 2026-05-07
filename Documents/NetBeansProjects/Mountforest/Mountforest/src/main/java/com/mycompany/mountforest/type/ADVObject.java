@@ -4,109 +4,123 @@
  */
 package com.mycompany.mountforest.type;
 
+import com.mycompany.mountforest.exceptions.*;
 import java.util.*;
 
 /**
- *
+ * Rappresenta un oggetto nel mondo di gioco.
+ * Può essere un oggetto semplice, un contenitore o un oggetto bloccato.
+ * 
  * @author sofy8
  */
-public class ADVObject 
-{
-    private String nome;
-    private final Set<String> alias;
+public class ADVObject {
+
+    private final String nome;
     private String descrizione;
-    private boolean apribile;
-    private boolean aperto;
-    private boolean prendibile;
+    private final Set<String> alias = new HashSet<>();
     
-    public ADVObject(String name,String description)
-    {
+    private boolean apribile = false;
+    private boolean aperto = false;
+    private boolean prendibile = true;
+
+    // NUOVO: Lista di oggetti contenuti (se l'oggetto è un contenitore, es. un baule)
+    private final List<ADVObject> contenuto = new ArrayList<>();
+
+    public ADVObject(String nome, String descrizione) {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new IllegalArgumentException("L'oggetto deve avere un nome!");
+        }
         this.nome = nome;
         this.descrizione = descrizione;
-        this.alias = new HashSet<>();
-        this.prendibile = true;
-        this.apribile = false;
-        this.aperto = false;
     }
+
+    // --- LOGICA ALIAS ---
     
-    public String getNome()
-    {
-        return nome;
+    /**
+     * Aggiunge un sinonimo per l'oggetto (es. nome "Spada", alias "arma").
+     */
+    public void addAlias(String nomeAlias) {
+        if (nomeAlias != null) {
+            this.alias.add(nomeAlias.toLowerCase());
+        }
     }
-    
-    public Set<String> getAlias()
-    {  
-        return alias;
+
+    public boolean matches(String nomeInput) {
+        return nome.equalsIgnoreCase(nomeInput) || alias.contains(nomeInput.toLowerCase());
     }
-    
-    public String getDescrizione()
-    {
+
+    // --- LOGICA CONTENITORE (NUOVO) ---
+
+    public void aggiungiContenuto(ADVObject obj) {
+        this.contenuto.add(obj);
+    }
+
+    public List<ADVObject> getContenuto() {
+        return contenuto;
+    }
+
+    /**
+     * Se l'oggetto è aperto, mostra cosa c'è dentro nella descrizione.
+     */
+    public String getDescrizioneCompleta() {
+        if (apribile && aperto && !contenuto.isEmpty()) {
+            StringBuilder sb = new StringBuilder(descrizione);
+            sb.append("\nDentro vedi: ");
+            for (ADVObject obj : contenuto) {
+                sb.append("[").append(obj.getNome()).append("] ");
+            }
+            return sb.toString();
+        }
         return descrizione;
     }
-    
-    public boolean getApribile()
-    {
-        return apribile;
-    }
-    
-    public boolean getAperto()
-    {
-        return aperto;
-    }
-    
-    public boolean getPrendibile()
-    {
-        return prendibile;
-    }
-    
-    public void setNome(String nome)
-    {
-        this.nome=nome;
-    }
-    
-    public void setAlias(String alias)
-    {  
-        this.alias.add(alias);
-    }
-    
-    public void setDescrizione(String descrizione)
-    {
-        this.descrizione=descrizione;
-    }
-    
-    public void setApribile(boolean apribile)
-    {
-        this.apribile = apribile;
+
+    // --- LOGICA APERTURA / CHIUSURA ---
+
+    public void apri() throws OggettoNonApribileException, OggettoGiaApertoException {
         if (!apribile) {
-            this.aperto = false;
+            throw new OggettoNonApribileException("Non puoi aprire " + nome + ".");
         }
-    }
-    
-    public void apri() {
-        if (apribile) {
-            this.aperto = true;
+        if (aperto) {
+            throw new OggettoGiaApertoException(nome + " è già aperto.");
         }
+        this.aperto = true;
     }
 
-    public void chiudi() {
-        if (apribile) {
-            this.aperto = false;
+    public void chiudi() throws OggettoNonApribileException, OggettoGiaChiusoException {
+        if (!apribile) {
+            throw new OggettoNonApribileException("Non puoi chiudere questo.");
         }
-    }
-    
-    public void setAperto(boolean aperto)
-    {
-        if(apribile=true && aperto==false)
-            this.aperto=true;
+        if (!aperto) {
+            throw new OggettoGiaChiusoException(nome + " è già chiuso.");
+        }
+        this.aperto = false;
     }
 
-    public void setPrendibile()
-    {
-           this.prendibile=true; 
-    }
+    // --- GETTER & SETTER ---
+
+    public String getNome() { return nome; }
+    public String getDescrizione() { return descrizione; }
+    public void setDescrizione(String descrizione) { this.descrizione = descrizione; }
     
-    public boolean puoEssereRaccolto(Inventario inventario) {
-        return this.prendibile && inventario.count() <= 8;
+    public boolean isApribile() { return apribile; }
+    public void setApribile(boolean apribile) { this.apribile = apribile; }
+    
+    public boolean isAperto() { return aperto; }
+    public void setAperto(boolean aperto) { this.aperto = aperto; }
+    
+    public boolean isPrendibile() { return prendibile; }
+    public void setPrendibile(boolean prendibile) { this.prendibile = prendibile; }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof ADVObject)) return false;
+        ADVObject other = (ADVObject) obj;
+        return nome.equals(other.nome);
     }
-   
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome);
+    }
 }
