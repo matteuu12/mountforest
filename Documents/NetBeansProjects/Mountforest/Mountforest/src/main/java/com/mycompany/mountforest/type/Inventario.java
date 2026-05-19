@@ -59,7 +59,14 @@ public class Inventario {
         return oggetti.stream()
                 .anyMatch(obj -> obj.matches(nomeInput));
     }
-
+  
+    public long contaDocumenti() {
+        return oggetti.stream()
+                .filter(o -> o.getNome().toLowerCase().contains("documento") || 
+                             o.getNome().toLowerCase().contains("file"))
+                .count();
+    }
+    
     /**
      * Recupera l'oggetto fisico dall'inventario tramite stringa.
      * Utile per i comandi tipo "usa [nome]".

@@ -19,6 +19,7 @@ public class Stanza {
     private final String descrizione;
     private boolean visibile;
     private boolean visitata = false;
+    private boolean eventoAttivato = false;
 
     // Usiamo una mappa per le direzioni: più flessibile di 4 variabili singole
     private final Map<String, Stanza> adiacenze = new HashMap<>();
@@ -42,7 +43,15 @@ public class Stanza {
     }
 
     // --- GESTIONE MOVIMENTO ---
-
+    
+    public boolean deveAttivareEvento() {
+        if (!eventoAttivato) {
+            eventoAttivato = true;
+            return true;
+        }
+        return false;
+    }
+    
     public void impostaAdiacenza(String direzione, Stanza stanza) {
         if (stanza == this) throw new IllegalArgumentException("Una stanza non può essere adiacente a se stessa!");
         adiacenze.put(direzione.toLowerCase(), stanza);

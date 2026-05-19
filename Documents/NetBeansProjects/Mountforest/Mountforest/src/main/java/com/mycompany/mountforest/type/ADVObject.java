@@ -22,7 +22,8 @@ public class ADVObject {
     private boolean apribile = false;
     private boolean aperto = false;
     private boolean prendibile = true;
-
+    private String idSblocco = null;
+    
     // NUOVO: Lista di oggetti contenuti (se l'oggetto è un contenitore, es. un baule)
     private final List<ADVObject> contenuto = new ArrayList<>();
 
@@ -38,6 +39,7 @@ public class ADVObject {
     
     /**
      * Aggiunge un sinonimo per l'oggetto (es. nome "Spada", alias "arma").
+     * @param nomeAlias
      */
     public void addAlias(String nomeAlias) {
         if (nomeAlias != null) {
@@ -76,7 +78,14 @@ public class ADVObject {
     }
 
     // --- LOGICA APERTURA / CHIUSURA ---
-
+    
+    public void sbloccaEApri(String chiaveFornita) throws OggettoBloccatoException {
+        if (idSblocco != null && !idSblocco.equals(chiaveFornita)) {
+            throw new OggettoBloccatoException("L'oggetto è chiuso a chiave o serve un codice."); // 
+        }
+        this.aperto = true;
+    }
+    
     public void apri() throws OggettoNonApribileException, OggettoGiaApertoException {
         if (!apribile) {
             throw new OggettoNonApribileException("Non puoi aprire " + nome + ".");
