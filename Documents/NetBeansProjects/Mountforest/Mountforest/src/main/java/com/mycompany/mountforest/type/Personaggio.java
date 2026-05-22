@@ -12,7 +12,7 @@ import java.util.Objects;
  * * @author sofy8
  */
 public abstract class Personaggio {
-    private final String nome;
+    final String nome;
     private Stanza stanzaCorrente;
     private int livelloAllerta;
     

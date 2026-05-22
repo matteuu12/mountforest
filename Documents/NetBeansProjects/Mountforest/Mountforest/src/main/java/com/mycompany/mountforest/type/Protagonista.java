@@ -23,4 +23,9 @@ public class Protagonista extends Personaggio {
     public Inventario getInventario() {
         return inventario;
     }
+    
+    @Override
+    public String getNome(){
+        return nome;
+    }
 }
