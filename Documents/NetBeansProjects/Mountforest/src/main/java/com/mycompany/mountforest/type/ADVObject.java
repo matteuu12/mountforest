@@ -22,7 +22,7 @@ public class ADVObject {
     private boolean apribile = false;
     private boolean aperto = false;
     private boolean prendibile = true;
-    private String idSblocco = null;
+    private final String idSblocco = null;
     
     // NUOVO: Lista di oggetti contenuti (se l'oggetto è un contenitore, es. un baule)
     private final List<ADVObject> contenuto = new ArrayList<>();
